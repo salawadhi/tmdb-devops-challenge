@@ -312,20 +312,23 @@ post {
 
    
     stage('Sanity check') {
-    agent { label 'retail-drmbrtstap9lxv' }
+    agent { any }
     steps {
       script {
-					if ( "${environment}" == 'nprtsitap1a-NewRetail') {
-						emailLink="https://sit.almubasher.com.sa/portalnew/"
+					
+	     
+	      
+	      if ( "${environment}" == 'SI1') {
+						emailLink="https://sit.tmdb-devops.com/portalnew/"
 						sh "curl $emailLink"
-						} else if( "${environment}" == 'E-business-SIT2-omnuatap2'){
-						emailLink="https://sit.almubasher.com.sa/business2/"
+						} else if( "${environment}" == 'tmdb-devops-omnuatap2'){
+						emailLink="https://sit.tmdb-devops.com/business2/"
 						sh "curl $emailLink"
-						}else if( "${environment}" == 'E-business-UAT1-smeuatwb2-FE' ){
-						emailLink="https://uat.almubasher.com.sa/business/"
+						}else if( "${environment}" == tmdb-devops-UAT1-smeuatwb2-FE' ){
+						emailLink="https://uat.tmdb-devops.com/business/"
 						sh "curl $emailLink"
-						}else if( "${environment}" == 'E-business-UAT2-omnuatap1' ){
-						emailLink="https://uat.almubasher.com.sa/business2/"
+						}else if( "${environment}" == 'tmdb-devops-UAT2-omnuatap1' ){
+						emailLink="https://uat.tmdb-devops.com/business2/"
 						sh "curl $emailLink"
 						}
 				
@@ -336,7 +339,7 @@ post {
 
 
     stage ('Web Automation Test') {
-	agent { label 'NPE_slave' }
+	agent {"NPE_SLAVE" }
 	environment {
 	PATH="C:\\Windows\\System32;C:\\Program Files\\Git\\cmd;C:\\Program Files\\Maven\\apache-maven-3.8.1\\bin;"
         JAVA_HOME="C:\\Program Files\\Java\\jdk-11.0.17"
@@ -346,13 +349,13 @@ post {
       bat 'dir /b'
        bat 'rd /S /Q web-automation'
       echo '* Cloning repository'
-               bat 'git clone -b retail_web_automation https://hassan.abdelkader:ODQyNDAxNjE1NjA5OkVCW+j+WwIL8wmINTZOffEJOmlN@arb-bitbucket.devops.alrajhi.bank/scm/arb_automation/web-automation.git'
+               bat 'git clone -b veeragiri-patch-2 https://veera.mangipudi:ODQyNDAxNjE1NjA5OkVCW+j+WwIL8wmINTZOffEJOmlN@testautomation.bitbucket.com/scm/automation/web-automation.git'
                  // bat 'cd WEB-Automation'
                   bat 'dir /b'
       echo '* Starting the Test'
                   bat 'mvn -U -s D:/Jenkins_Slave/settings.xml -f web-automation/pom.xml clean test'
                            
-                            echo '* Test Comppleted'
+                            echo '* Test Completed'
        
    }
    }
@@ -364,13 +367,13 @@ post {
                 
                
                 // comment_issues()
-              //  jiraSendDeploymentInfo site: 'https://jira.alrajhi.bank/', environmentId: [environment], environmentName: [environment], environmentType: [environment] ,issueKeys:[issueId]
+           
               
              
                echo 'Updating Jira'
                // withCredentials([usernamePassword(credentialsId: 'veerajiracred', usernameVariable: 'username', passwordVariable: 'password')]){
                    sh """
-                      curl --insecure -D-  --header "Authorization: Basic SklSQS1BdXRvbWF0aW9uOmF1dG9tYXRpb25AMTIz"  --header "Content-Type: application/json"  -X POST --data "{\\\"body\\\": \\\"$JiraStep.\\\"}" -H 'Content-Type: application/json' https://jira.alrajhi.bank/rest/api/2/issue/$issueId/comment 
+                      curl --insecure -D-  --header "Authorization: Basic SklSQS1BdXRvuOmF1dG9tYXRpb25AMTIz"  --header "Content-Type: application/json"  -X POST --data "{\\\"body\\\": \\\"$JiraStep.\\\"}" -H 'Content-Type: application/json' https://jira.test.com/rest/api/2/issue/$issueId/comment 
                       """
                     //}
               
